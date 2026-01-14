@@ -1,0 +1,188 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}{{ project.title }} | Mcondisi{% endblock %}
+
+{% block content %}
+<section class="section project-detail">
+    <div class="project-detail-container">
+
+        <!-- PROJECT IMAGE -->
+        <div class="project-gallery">
+            <div class="main-image">
+                {% if project.image %}
+                <img src="{{ project.image.url }}" alt="{{ project.title }}">
+                {% else %}
+                    <div class="poster-placeholder">No Image Available</div>
+                {% endif %}
+            </div>
+        </div>
+
+        <!-- PROJECT CONTENT -->
+        <div class="project-detail-content">
+            <h1 class="project-title">{{ project.title }}</h1>
+
+            <p class="project-description">
+                {{ project.description }}
+            </p>
+
+            <!-- ACTION BUTTONS -->
+            <div class="detail-actions">
+                {% if project.live_url %}
+                <a href="{{ project.live_url }}" target="_blank" class="btn primary">
+                    Live Preview
+                </a>
+                {% endif %}
+
+                {% if project.github_url %}
+                <a href="{{ project.github_url }}" target="_blank" class="btn outline">
+                    GitHub Repository
+                </a>
+                {% endif %}
+            </div>
+
+            <!-- TECH STACK -->
+            {% if project.tech_stack %}
+            <div class="project-meta">
+                <h4>Tech Stack</h4>
+                <div class="tech-tags">
+                    {% for tech in project.tech_list %}
+                        <span class="tech-tag">{{ tech }}</span>
+                    {% endfor %}
+                </div>
+            </div>
+            {% endif %}
+
+            <!-- FEATURES -->
+            {% if project.features %}
+            <div class="project-meta">
+                <h4>Key Features</h4>
+                <ul>
+                    {% for feature in project.feature_list %}
+                        <li>✔ {{ feature }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+            {% endif %}
+
+        </div>
+    </div>
+</section>
+
+
+
+<style>
+.project-detail-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 40px;
+    margin-top: 2rem;
+}
+
+.project-gallery {
+    flex: 1 1 400px;
+    max-width: 600px;
+}
+
+.project-gallery img {
+    width: 100%;
+    border-radius: 12px;
+    object-fit: cover;
+}
+
+.poster-placeholder {
+    width: 100%;
+    height: 350px;
+    background: #ddd;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    color: #666;
+    border-radius: 12px;
+}
+
+.project-detail-content {
+    flex: 1 1 400px;
+    max-width: 600px;
+}
+
+.project-title {
+    font-size: 2rem;
+    margin-bottom: 1rem;
+}
+
+.project-description {
+    font-size: 1.1rem;
+    margin-bottom: 1.5rem;
+}
+
+.detail-actions a {
+    display: inline-block;
+    margin-right: 15px;
+    padding: 10px 20px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: 600;
+    transition: 0.3s ease;
+}
+
+.btn.primary {
+    background: linear-gradient(135deg, #4CAF50, #2e8b57);
+    color: #fff;
+}
+
+.btn.primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 25px rgba(0,0,0,0.25);
+}
+
+.btn.outline {
+    border: 2px solid #4CAF50;
+    color: #4CAF50;
+}
+
+.btn.outline:hover {
+    background: #4CAF50;
+    color: #fff;
+}
+
+.project-meta {
+    margin-top: 2rem;
+}
+
+.tech-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.tech-tag {
+    padding: 5px 10px;
+    border-radius: 6px;
+    background: #f0f0f0;
+    font-size: 0.9rem;
+}
+
+.project-meta ul {
+    list-style: none;
+    padding-left: 0;
+}
+
+.project-meta li {
+    margin-bottom: 8px;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .project-detail-container {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .project-gallery, .project-detail-content {
+        max-width: 100%;
+    }
+}
+</style>
+{% endblock %}

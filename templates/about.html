@@ -1,0 +1,81 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}About | Mcondisi{% endblock %}
+
+{% block content %}
+<section class="section about">
+    <div class="section-header reveal">
+        <h2>{{ about_info.title }}</h2>
+        <p>{{ about_info.description }}</p>
+
+        {% if about_info.cv %}
+        <a href="{% url 'download_cv' %}" class="btn-download-cv" target="_blank">
+            Download Resume (PDF)
+        </a>
+        {% endif %}
+    </div>
+
+    <!-- ================= ABOUT IMAGE ================= -->
+{% if about_info.image %}
+<div class="about-image reveal">
+    <img src="{{ about_info.image.url }}" alt="About {{ about_info.title }}">
+</div>
+{% endif %}
+
+
+    <!-- ================= SKILLS ================= -->
+    <ul class="skills-list">
+        {% for skill in skills %}
+        <li class="skill-card">
+            <div class="skill-circle" data-percentage="{{ skill.proficiency }}">
+                <svg width="120" height="120">
+                    <circle class="skill-bg" cx="60" cy="60" r="50"></circle>
+                    <circle class="skill-progress" cx="60" cy="60" r="50"></circle>
+                </svg>
+                <span class="skill-percentage">0%</span>
+            </div>
+
+            <div class="skill-name">
+                {% if skill.icon %}
+                    <img src="{{ skill.icon.url }}" alt="{{ skill.name }}" class="skill-icon">
+                {% endif %}
+                <span>{{ skill.name }}</span>
+            </div>
+        </li>
+        {% endfor %}
+    </ul>
+</section>
+
+<!-- ================= JOURNEY ================= -->
+<section class="section journey">
+    <div class="section-header reveal">
+        <h2>My Journey</h2>
+        <p>My professional and learning path</p>
+    </div>
+
+    <div class="timeline">
+        {% for event in timeline %}
+        <div class="timeline-item reveal">
+            <div class="timeline-dot">
+                {% if event.icon %}
+                    <img src="{{ event.icon.url }}" alt="{{ event.title }}">
+                {% else %}
+                    <span></span>
+                {% endif %}
+            </div>
+
+            <div class="timeline-content">
+                <span class="timeline-year">{{ event.year }}</span>
+                <h3>{{ event.title }}</h3>
+                <p>{{ event.description }}</p>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</section>
+
+<!-- ================= STATIC FILES ================= -->
+<link rel="stylesheet" href="{% static 'css/about.css' %}">
+<script src="{% static 'js/about.js' %}"></script>
+{% endblock %}
