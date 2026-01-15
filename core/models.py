@@ -98,9 +98,14 @@ class SocialLink(models.Model):
 # =========================
 # CV (PDF)
 # =========================
+
+
 class CV(models.Model):
     title = models.CharField(max_length=100, default="My CV")
-    file = CloudinaryField(resource_type="raw")
+    file = CloudinaryField(
+        resource_type="image",  
+        folder="cv"
+    )
     uploaded_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):

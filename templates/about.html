@@ -13,18 +13,19 @@
         Loop over CVs stored in Cloudinary (or locally). 
         Using {{ cv.file }} works for both Render and local dev.
         {% endcomment %}
-        {% for cv in cvs %}
-            {% if cv.file %}
-                <a href="{{ cv.file }}"
-                   class="btn primary"
-                   target="_blank"
-                   rel="noopener">
-                   Download Resume (PDF)
-                </a>
-            {% endif %}
-        {% empty %}
-            <p>No CV uploaded yet.</p>
-        {% endfor %}
+       {% for cv in cvs %}
+    {% if cv.file %}
+        <a href="{{ cv.file.url }}"
+           class="btn primary"
+           target="_blank"
+           rel="noopener">
+           Download Resume (PDF)
+        </a>
+    {% endif %}
+{% empty %}
+    <p>No CV uploaded yet.</p>
+{% endfor %}
+
     </div>
 
     <!-- ================= ABOUT IMAGE ================= -->
