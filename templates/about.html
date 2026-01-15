@@ -15,12 +15,15 @@
         {% endcomment %}
        {% for cv in cvs %}
     {% if cv.file %}
-        <a href="{{ cv.file.url }}"
-           class="btn primary"
-           target="_blank"
-           rel="noopener">
-           Download Resume (PDF)
-        </a>
+       <a href="{% static 'files/Mcondisi_CV.pdf' %}"
+   class="btn btn-resume"
+   target="_blank"
+   rel="noopener">
+   ⬇ Download Resume
+</a>
+
+
+
     {% endif %}
 {% empty %}
     <p>No CV uploaded yet.</p>
