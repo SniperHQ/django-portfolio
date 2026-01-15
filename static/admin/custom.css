@@ -1,0 +1,12 @@
+#header {
+    background: #0b2d4f;
+}
+
+#header h1 a {
+    color: #ffffff;
+    font-weight: bold;
+}
+
+.module h2 {
+    background: #06162b;
+}

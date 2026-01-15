@@ -9,20 +9,30 @@
         <h2>{{ about_info.title }}</h2>
         <p>{{ about_info.description }}</p>
 
-        {% if about_info.cv %}
-        <a href="{% url 'download_cv' %}" class="btn-download-cv" target="_blank">
-            Download Resume (PDF)
-        </a>
-        {% endif %}
+        {% comment %}
+        Loop over CVs stored in Cloudinary (or locally). 
+        Using {{ cv.file }} works for both Render and local dev.
+        {% endcomment %}
+        {% for cv in cvs %}
+            {% if cv.file %}
+                <a href="{{ cv.file }}"
+                   class="btn primary"
+                   target="_blank"
+                   rel="noopener">
+                   Download Resume (PDF)
+                </a>
+            {% endif %}
+        {% empty %}
+            <p>No CV uploaded yet.</p>
+        {% endfor %}
     </div>
 
     <!-- ================= ABOUT IMAGE ================= -->
-{% if about_info.image %}
-<div class="about-image reveal">
-    <img src="{{ about_info.image.url }}" alt="About {{ about_info.title }}">
-</div>
-{% endif %}
-
+    {% if about_info.image %}
+    <div class="about-image reveal">
+        <img src="{{ about_info.image.url }}" alt="About {{ about_info.title }}">
+    </div>
+    {% endif %}
 
     <!-- ================= SKILLS ================= -->
     <ul class="skills-list">

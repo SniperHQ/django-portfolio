@@ -1,9 +1,10 @@
 from django.db import models
 from django.core.validators import MinValueValidator, MaxValueValidator
+from cloudinary.models import CloudinaryField
 
 
 # =========================
-# HERO (Singleton Content)
+# HERO
 # =========================
 class Hero(models.Model):
     name = models.CharField(max_length=100)
@@ -11,20 +12,19 @@ class Hero(models.Model):
     description = models.TextField(blank=True)
     github_url = models.URLField(blank=True, null=True)
     linkedin_url = models.URLField(blank=True, null=True)
-    image = models.ImageField(upload_to='hero/', blank=True, null=True)
+    image = CloudinaryField("hero_image", blank=True, null=True)
 
     def __str__(self):
         return self.name
 
 
 # =========================
-# ABOUT SECTION
+# ABOUT
 # =========================
 class About(models.Model):
     title = models.CharField(max_length=200)
     description = models.TextField()
-    image = models.ImageField(upload_to='about/', blank=True, null=True)
-    cv = models.FileField(upload_to='cv/', blank=True, null=True)
+    image = CloudinaryField("about_image", blank=True, null=True)
 
     def __str__(self):
         return self.title
@@ -36,10 +36,9 @@ class About(models.Model):
 class Skill(models.Model):
     name = models.CharField(max_length=100)
     proficiency = models.PositiveIntegerField(
-        validators=[MinValueValidator(0), MaxValueValidator(100)],
-        help_text="Percentage (0–100)"
+        validators=[MinValueValidator(0), MaxValueValidator(100)]
     )
-    icon = models.ImageField(upload_to='skills/', blank=True, null=True)
+    icon = CloudinaryField("skill_icon", blank=True, null=True)
 
     def __str__(self):
         return self.name
@@ -52,7 +51,7 @@ class TimelineEvent(models.Model):
     year = models.PositiveSmallIntegerField()
     title = models.CharField(max_length=200)
     description = models.TextField()
-    icon = models.ImageField(upload_to='timeline/', blank=True, null=True)
+    icon = CloudinaryField("timeline_icon", blank=True, null=True)
 
     class Meta:
         ordering = ['year']
@@ -67,15 +66,9 @@ class TimelineEvent(models.Model):
 class Project(models.Model):
     title = models.CharField(max_length=200)
     description = models.TextField()
-    image = models.ImageField(upload_to='projects/', blank=True, null=True)
-    tech_stack = models.CharField(
-        max_length=300,
-        help_text="Comma-separated values e.g. Django, PostgreSQL, JavaFX"
-    )
-    features = models.TextField(
-        blank=True,
-        help_text="One feature per line"
-    )
+    image = CloudinaryField("project_image", blank=True, null=True)
+    tech_stack = models.CharField(max_length=300)
+    features = models.TextField(blank=True)
     live_url = models.URLField(blank=True, null=True)
     github_url = models.URLField(blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
@@ -91,15 +84,24 @@ class Project(models.Model):
 
 
 # =========================
-# SOCIAL LINKS (SVG READY)
+# SOCIAL LINKS
 # =========================
 class SocialLink(models.Model):
     name = models.CharField(max_length=50)
     url = models.URLField()
-    icon = models.TextField(
-        blank=True,
-        help_text="Paste SVG or HTML icon code"
-    )
+    icon = models.TextField(blank=True)
 
     def __str__(self):
         return self.name
+
+
+# =========================
+# CV (PDF)
+# =========================
+class CV(models.Model):
+    title = models.CharField(max_length=100, default="My CV")
+    file = CloudinaryField(resource_type="raw")
+    uploaded_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.title

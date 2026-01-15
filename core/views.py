@@ -8,12 +8,17 @@ def home(request):
     return render(request, 'home.html', {'hero': hero})
 
 
+from .models import CV
+
 def about(request):
-    return render(request, 'about.html', {
-        'about_info': About.objects.first(),
-        'skills': Skill.objects.all(),
-        'timeline': TimelineEvent.objects.order_by('year'),
-    })
+    context = {
+        "about_info": About.objects.first(),
+        "skills": Skill.objects.all(),
+        "timeline": TimelineEvent.objects.all(),
+        "cvs": CV.objects.all(),  
+    }
+    return render(request, "about.html", context)
+
 
 
 def services(request):
