@@ -113,6 +113,8 @@ STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 
 USE_CLOUDINARY = bool(os.environ.get("CLOUDINARY_CLOUD_NAME"))
 
+USE_CLOUDINARY = os.getenv("USE_CLOUDINARY", "False") == "True"
+
 if USE_CLOUDINARY:
     STORAGES = {
         "default": {
@@ -123,5 +125,11 @@ if USE_CLOUDINARY:
         },
     }
 else:
-    MEDIA_URL = "/media/"
-    MEDIA_ROOT = BASE_DIR / "media"
+    STORAGES = {
+        "default": {
+            "BACKEND": "django.core.files.storage.FileSystemStorage",
+        },
+        "staticfiles": {
+            "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",
+        },
+    }
